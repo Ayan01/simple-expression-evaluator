@@ -4,6 +4,8 @@
 #include <string>
 #include "VariableTable.h"
 
+constexpr auto decimalPoint = '.';
+
 using namespace std;
 
 class ExpressionEvaluator
@@ -19,14 +21,14 @@ private:
 	int _token;
 	int _index;
 
-	void getToken();
-	void parse();
-	void match(char c, string message);
-	void error(string message);
+	void _getToken();
+	void _parse();
+	void _match(char c, string message);
+	void _error(string message);
 
-	double expr();
-	double term();
-	double factor();
-	double identifier();
-	double number();
+	double _expr();
+	double _term();
+	double _factor();
+	double _identifier();
+	double _number();
 };

@@ -1,23 +1,33 @@
 #include "include/ExpressionEvaluator.h"
 
+constexpr auto exitKeyWord = "exit";
+
 int main()
 {
+	cout << "Type 'exit' to exit the program." << endl;
+
 	while (true)
 	{
 		auto evaluator = ExpressionEvaluator();
-		string buf;
+		string input;
 
 		cout << "Enter an expression>> ";
-		getline(cin, buf);
+		getline(cin, input);
 
-		try
+		if (!input.empty() && input != exitKeyWord)
 		{
-			evaluator.evaluate(buf);
+			try
+			{
+				evaluator.evaluate(input);
+			}
+			catch (const std::exception& e)
+			{
+				cerr << e.what() << endl;
+			}
 		}
-		catch (const std::exception& e)
-		{
-			cerr << e.what() << endl;
-		}
+
+		if (input == exitKeyWord)
+			break;
 	}
 
 	return 0;

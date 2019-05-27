@@ -9,17 +9,17 @@ ExpressionEvaluator::ExpressionEvaluator()
 void ExpressionEvaluator::evaluate(string expression)
 {
 	_expression = expression;
-	getToken();
-	parse();
+	_getToken();
+	_parse();
 }
 
-void ExpressionEvaluator::error(string message)
+void ExpressionEvaluator::_error(string message)
 {
 	cout << "\nParse error : " << message << endl;
 	exit(EXIT_FAILURE);
 }
 
-void ExpressionEvaluator::getToken()
+void ExpressionEvaluator::_getToken()
 {
 	_index++;
 	while (isspace(_expression[_index]) != 0)
@@ -27,62 +27,62 @@ void ExpressionEvaluator::getToken()
 	_token = _expression[_index];
 }
 
-void ExpressionEvaluator::match(char c, string message)
+void ExpressionEvaluator::_match(char c, string message)
 {
 	if (_token == c)
-		getToken();
+		_getToken();
 	else
-		error(message);
+		_error(message);
 }
 
-void ExpressionEvaluator::parse()
+void ExpressionEvaluator::_parse()
 {
 	/* parse -> expr '\n' */
 	
-	auto result = expr();
+	auto result = _expr();
 	if (_token == '\0')
 		cout << "The result is : " << result << endl << endl;
 	else
-		error("Tokens after end of expression.");
+		_error("Tokens after end of expression.");
 }
 
-double ExpressionEvaluator::expr()
+double ExpressionEvaluator::_expr()
 {
 	/* expr -> term  { '+' term | '-' term } */
 
-	auto result = term();
+	auto result = _term();
 	while ((_token == '+') || (_token == '-'))
 	{
 		if (_token == '+')
 		{
-			match('+', "+ expected!");
-			result += term();
+			_match('+', "+ expected!");
+			result += _term();
 		}
 		else
 		{
-			match('-', "- expected!");
-			result -= term();
+			_match('-', "- expected!");
+			result -= _term();
 		}
 	}
 	return result;
 }
 
-double ExpressionEvaluator::term()
+double ExpressionEvaluator::_term()
 {
 	/* term -> factor { '*' factor | '/' factor }*/
 
-	auto result = factor();
+	auto result = _factor();
 	while ((_token == '*') || (_token == '/'))
 	{
 		if (_token == '*')
 		{
-			match('*', "* expected!");
-			result *= factor();
+			_match('*', "* expected!");
+			result *= _factor();
 		}
 		else
 		{
-			match('/', "/ expected!");
-			auto n = factor();
+			_match('/', "/ expected!");
+			auto n = _factor();
 			if (n != 0)
 				result = result / n;
 			else
@@ -92,29 +92,29 @@ double ExpressionEvaluator::term()
 	return result;
 }
 
-double ExpressionEvaluator::factor()
+double ExpressionEvaluator::_factor()
 {
 	/* factor -> '(' expr ')' | number | variable */
 	
 	double result;
 	if (_token == '(')
 	{
-		match('(', "( expected!");
-		result = expr();
-		match(')', ") expected!");
+		_match('(', "( expected!");
+		result = _expr();
+		_match(')', ") expected!");
 	}
 	else if (isalpha(_token))
 	{
-		result = identifier();
+		result = _identifier();
 	}
 	else
 	{
-		result = number();
+		result = _number();
 	}
 	return result;
 }
 
-double ExpressionEvaluator::identifier()
+double ExpressionEvaluator::_identifier()
 {
 	/* identifier -> alphabet { alphabet | digit } */
 
@@ -125,7 +125,7 @@ double ExpressionEvaluator::identifier()
 	{
 		variable += _token;
 		j++;
-		getToken();
+		_getToken();
 	}
 	if (!_variableTable.exists(variable))
 	{
@@ -139,18 +139,18 @@ double ExpressionEvaluator::identifier()
 	return _variableTable.getVariable(variable);
 }
 
-double ExpressionEvaluator::number()
+double ExpressionEvaluator::_number()
 {
 	/* number -> digit { digit } */
 
 	int j = 0;
 	string number;
 
-	while (isdigit(_token) || _token == '.')
+	while (isdigit(_token) || _token == decimalPoint)
 	{
 		number += _token;
 		j++;
-		getToken();
+		_getToken();
 	}
 	auto value = stod(number);
 	return value;
