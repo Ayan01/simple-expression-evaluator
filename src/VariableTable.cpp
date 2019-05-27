@@ -1,5 +1,7 @@
 #include "include/VariableTable.h"
 
+using namespace simpleExpressionEvaluator;
+
 bool VariableTable::exists(string variableName)
 {
 	return (_table.find(variableName) != _table.end()) ? true : false;

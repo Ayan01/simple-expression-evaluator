@@ -8,27 +8,31 @@ constexpr auto decimalPoint = '.';
 
 using namespace std;
 
-class ExpressionEvaluator
+namespace simpleExpressionEvaluator
 {
-public:
-	ExpressionEvaluator();
-	void evaluate(string expression);
+
+	class ExpressionEvaluator
+	{
+	public:
+		ExpressionEvaluator();
+		void evaluate(string expression);
 
 
-private:
-	string _expression;
-	VariableTable _variableTable;
-	int _token;
-	int _index;
+	private:
+		string _expression;
+		VariableTable _variableTable;
+		int _token;
+		int _index;
 
-	void _getToken();
-	void _parse();
-	void _match(char c, string message);
-	void _error(string message);
+		void _getToken();
+		void _parse();
+		void _match(char c, string message);
+		void _error(string message);
 
-	double _expr();
-	double _term();
-	double _factor();
-	double _identifier();
-	double _number();
-};
+		double _expr();
+		double _term();
+		double _factor();
+		double _identifier();
+		double _number();
+	};
+}

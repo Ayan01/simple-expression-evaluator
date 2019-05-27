@@ -1,5 +1,7 @@
 ﻿#include "include/ExpressionEvaluator.h"
 
+using namespace simpleExpressionEvaluator;
+
 ExpressionEvaluator::ExpressionEvaluator()
 {
 	_variableTable = VariableTable();
@@ -38,7 +40,7 @@ void ExpressionEvaluator::_match(char c, string message)
 void ExpressionEvaluator::_parse()
 {
 	/* parse -> expr '\n' */
-	
+
 	auto result = _expr();
 	if (_token == '\0')
 		cout << "The result is : " << result << endl << endl;
@@ -86,7 +88,7 @@ double ExpressionEvaluator::_term()
 			if (n != 0)
 				result = result / n;
 			else
-				cout <<  "\nError : Divison by 0!" << endl;
+				cout << "\nError : Divison by 0!" << endl;
 		}
 	}
 	return result;
@@ -95,7 +97,7 @@ double ExpressionEvaluator::_term()
 double ExpressionEvaluator::_factor()
 {
 	/* factor -> '(' expr ')' | number | variable */
-	
+
 	double result;
 	if (_token == '(')
 	{

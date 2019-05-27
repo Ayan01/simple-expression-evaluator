@@ -3,14 +3,17 @@
 
 using namespace std;
 
-class VariableTable
+namespace simpleExpressionEvaluator
 {
-public:
-	bool exists(string variableName);
-	double getVariable(string variableName);
-	void addVariable(string variableName, double value);
+	class VariableTable
+	{
+	public:
+		bool exists(string variableName);
+		double getVariable(string variableName);
+		void addVariable(string variableName, double value);
 
 
-private:
-	map<string, double> _table;
-};
+	private:
+		map<string, double> _table;
+	};
+}

@@ -2,6 +2,8 @@
 
 constexpr auto exitKeyWord = "exit";
 
+using namespace simpleExpressionEvaluator;
+
 int main()
 {
 	cout << "Type 'exit' to exit the program." << endl;
